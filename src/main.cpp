@@ -11,7 +11,7 @@ void  setup() {
   pinMode(2, INPUT);
   pinMode(7, INPUT);
 }
-
+//pas overflow le nombre de modes + son par changement de mode 
 int  tabernak(int mode) {
   mode++;
   if (mode == 3)
@@ -22,19 +22,20 @@ int  tabernak(int mode) {
   return (mode);
 }
 
-void mode1() {
+//def des leds pour les modes
+void mod1() {
   digitalWrite(3, HIGH);
   digitalWrite(4, LOW);
   digitalWrite(5, LOW);
 }
 
-void mode2() {
+void mod2() {
   digitalWrite(3, LOW);
   digitalWrite(4, HIGH);
   digitalWrite(5, LOW);
 }
 
-void mode3() {
+void mod3() {
   digitalWrite(3, LOW);
   digitalWrite(4, LOW);
   digitalWrite(5, HIGH);
@@ -48,12 +49,12 @@ void  loop() {
   if (digitalRead(7)) 
     note2[mode];
   if (mode == 0){
-    mode1();
+    mod1();
   }
   else if (mode == 1) {
-    mode2();
+    mod2();
   }
   else if (mode == 2) {
-    mode3();
+    mod3();
   }
 }
