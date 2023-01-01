@@ -62,6 +62,10 @@ bool canFeed(bool bypass = false)
     {
       return true;
     }
+    else {
+      delay(30000);
+      return false;
+    }
   }
   else
   {
