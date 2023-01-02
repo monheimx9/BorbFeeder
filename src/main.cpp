@@ -86,21 +86,21 @@ bool canFeed(bool bypass = false)
 
 void  difficultyLED(int level){
   switch (level){
-  case '0' :
-    digitalWrite(ledPin1, HIGH);
-    digitalWrite(ledPin2, LOW);
-    digitalWrite(ledPin3, LOW);
-    break;
-  case '1' :
-    digitalWrite(ledPin1, LOW);
-    digitalWrite(ledPin2, HIGH);
-    digitalWrite(ledPin3, LOW);
-    break;
-  case '2' :
-    digitalWrite(ledPin1, LOW);
-    digitalWrite(ledPin2, LOW);
-    digitalWrite(ledPin3, HIGH);
-    break;
+    case '0' :
+      digitalWrite(ledPin1, HIGH);
+      digitalWrite(ledPin2, LOW);
+      digitalWrite(ledPin3, LOW);
+      break;
+    case '1' :
+      digitalWrite(ledPin1, LOW);
+      digitalWrite(ledPin2, HIGH);
+      digitalWrite(ledPin3, LOW);
+      break;
+    case '2' :
+      digitalWrite(ledPin1, LOW);
+      digitalWrite(ledPin2, LOW);
+      digitalWrite(ledPin3, HIGH);
+      break;
   }
 }
 
