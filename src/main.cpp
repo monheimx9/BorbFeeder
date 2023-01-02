@@ -140,14 +140,13 @@ void  borbinput(int difficulty){
         delay(1000);
         idx++;
       }
+    }
   }
 }
 
 void loop(){
-  if (canFeed(true))
-  {
-    if (digitalRead(btn1))
-    {
+  if (canFeed(true)){
+    if (digitalRead(btn1)){
       difficulty = definemode(difficulty);
       difficultyLED(difficulty);
       delay(300);
