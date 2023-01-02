@@ -59,12 +59,15 @@ void launchSeeds()
 void melody(int melodyNum = 1, int difficulty = 0) 
 {
   noTone(buzzerPin);
+  int ledPins[3] = {ledPin1,ledPin2,ledPin3};
   idx = 0;
   while (idx < 10)
   {
+    digitalWrite(ledPins[0], HIGH);
     tone(buzzerPin, melody1[idx][0]);
     delay(melody1[idx][1]);
     idx++;
+    digitalWrite(ledPins[0], LOW);
   }
   noTone(buzzerPin);
 }
