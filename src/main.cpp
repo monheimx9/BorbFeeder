@@ -4,7 +4,7 @@
 #include <DS1307RTC.h>
 
 int melody1[10][2] = {{1174,500},{987,250},{789,250},{659,250},{1174,250},{987,250},{783,250},{987,500},{783,500},{987,500}};
-int mode = 0;
+int difficulty = 0;
 int note1[] = {100, 300, 500};
 int note2[] = {200, 400, 600};
 int idx = 0;
@@ -28,16 +28,16 @@ void setup()
   pinMode(btn2, INPUT);
 }
 
-// pas overflow le nombre de modes + son par changement de mode
-int definemode(int mode)
+// pas overflow le nombre de modes + son par changement de difficulty
+int definemode(int difficulty)
 {
-  mode++;
-  if (mode == 3)
-    mode = 0;
-  tone(buzzerPin, note1[mode]);
+  difficulty++;
+  if (difficulty == 3)
+    difficulty = 0;
+  tone(buzzerPin, note1[difficulty]);
   delay(100);
   noTone(buzzerPin);
-  return (mode);
+  return (difficulty);
 }
 
 void launchSeeds()
@@ -58,12 +58,18 @@ void launchSeeds()
 void melody(int melodyNum = 1, int difficulty = 0) 
 {
   noTone(buzzerPin);
+  int ledPins[3] = {ledPin1,ledPin2,ledPin3};
+  int led;
   idx = 0;
-  while (idx < 10)
+  while (idx < difficulty)
   {
+    
     tone(buzzerPin, melody1[idx][0]);
+    digitalWrite(ledPins[0],HIGH);
     delay(melody1[idx][1]);
+    digitalWrite(ledPins[0],LOW);
     idx++;
+    
   }
   noTone(buzzerPin);
   }
@@ -86,17 +92,17 @@ bool canFeed(bool bypass = false)
 
 void  difficultyLED(int level){
   switch (level){
-    case '0' :
+    case 0 :
       digitalWrite(ledPin1, HIGH);
       digitalWrite(ledPin2, LOW);
       digitalWrite(ledPin3, LOW);
       break;
-    case '1' :
+    case 1 :
       digitalWrite(ledPin1, LOW);
       digitalWrite(ledPin2, HIGH);
       digitalWrite(ledPin3, LOW);
       break;
-    case '2' :
+    case 2 :
       digitalWrite(ledPin1, LOW);
       digitalWrite(ledPin2, LOW);
       digitalWrite(ledPin3, HIGH);
@@ -108,9 +114,9 @@ void loop(){
   if (canFeed(true))
   {
     if (digitalRead(btn1))
-    {
-      mode = definemode(mode);
-      difficultyLED(mode);
+    { 
+      difficulty = definemode(difficulty);
+      difficultyLED(difficulty);
       delay(300);
     }
     if (digitalRead(btn2))
