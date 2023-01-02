@@ -3,7 +3,6 @@
 #include <TimeLib.h>
 #include <DS1307RTC.h>
 
-int melody1[10][2] = {{},{},{},{},{},{},{},{},{},{}};
 int mode = 0;
 int note1[] = {100, 300, 500};
 int note2[] = {200, 400, 600};
@@ -97,26 +96,26 @@ void mod3()
 }
 
 void loop(){
-while (canFeed(false))
-{
-  if (digitalRead(btn1))
+  while (canFeed(false))
   {
-    mode = tabernak(mode);
-    delay(300);
-  }
-  if (digitalRead(btn2))
+    if (digitalRead(btn1))
+    {
+      mode = tabernak(mode);
+      delay(300);
+    }
+    if (digitalRead(btn2))
     note2[mode];
-  if (mode == 0)
-  {
-    mod1();
+    if (mode == 0)
+    {
+      mod1();
+    }
+    else if (mode == 1)
+    {
+      mod2();
+    }
+    else if (mode == 2)
+    {
+      mod3();
+    }
   }
-  else if (mode == 1)
-  {
-    mod2();
-  }
-  else if (mode == 2)
-  {
-    mod3();
-  }
-
 }
