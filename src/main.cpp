@@ -70,9 +70,9 @@ void melody(int melodyNum = 1, int difficulty = 0)
     else
       ledInt--;
     if (ledInt > 2)
-      ledInt = ledPins[0];
+      ledInt = 0;
     else if (ledInt < 0)
-      ledInt = ledPins[2];
+      ledInt = 2;
     currentNote = melody1[idx][0];
     digitalWrite(ledPins[ledInt], HIGH);
     tone(buzzerPin, currentNote);
