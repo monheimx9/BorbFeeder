@@ -59,8 +59,13 @@ void melody(int melodyNum = 1, int difficulty = 0)
 {
   noTone(buzzerPin);
   idx = 0;
-  for (idx <= )
-}
+  while (idx < 10)
+  {
+    tone(buzzerPin, *melody1[idx,0]);
+    delay(*melody1[idx,1]);
+    idx++;
+  }
+  }
 
 bool canFeed(bool bypass = false)
 {
@@ -78,7 +83,7 @@ bool canFeed(bool bypass = false)
 }
 
 
-void  mod(int level){
+void  difficulty(int level){
   switch (level){
   case '0' :
     digitalWrite(ledPin1, HIGH);
@@ -108,6 +113,6 @@ void loop(){
     }
     if (digitalRead(btn2))
     note2[mode];
-    mod(mode);
+    difficulty(mode);
   }
 }
