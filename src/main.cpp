@@ -163,6 +163,7 @@ void  borbinput(int difficulty){
 void loop(){
   if (canFeed(true)){
     if (digitalRead(btn1)){
+      definemode(difficulty);
       difficultyLED(difficulty);
       delay(300);
     }
