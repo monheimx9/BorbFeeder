@@ -29,7 +29,7 @@ void setup()
 }
 
 // pas overflow le nombre de modes + son par changement de mode
-int tabernak(int mode)
+int definemode(int mode)
 {
   mode++;
   if (mode == 3)
@@ -99,11 +99,11 @@ void  mod(int level){
 }
 
 void loop(){
-  while (canFeed(false))
+  if (canFeed(false))
   {
     if (digitalRead(btn1))
     {
-      mode = tabernak(mode);
+      mode = definemode(mode);
       delay(300);
     }
     if (digitalRead(btn2))
