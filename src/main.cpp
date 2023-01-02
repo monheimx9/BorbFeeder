@@ -29,16 +29,16 @@ void setup()
   pinMode(btn2, INPUT);
 }
 
-// pas overflow le nombre de modes + son par changement de difficulty
-int definemode(int difficulty)
+// pas overflow le nombre de modes + son par changement de mode
+int definemode(int mode)
 {
-  difficulty++;
-  if (difficulty == 3)
-    difficulty = 0;
-  tone(buzzerPin, note1[difficulty]);
+  mode++;
+  if (mode == 3)
+    mode = 0;
+  tone(buzzerPin, note1[mode]);
   delay(100);
   noTone(buzzerPin);
-  return (difficulty);
+  return (mode);
 }
 
 void launchSeeds()
@@ -59,18 +59,12 @@ void launchSeeds()
 void melody(int melodyNum = 1, int difficulty = 0) 
 {
   noTone(buzzerPin);
-  int ledPins[3] = {ledPin1,ledPin2,ledPin3};
-  int led;
   idx = 0;
-  while (idx < difficulty)
+  while (idx < 10)
   {
-    
     tone(buzzerPin, melody1[idx][0]);
-    digitalWrite(ledPins[0],HIGH);
     delay(melody1[idx][1]);
-    digitalWrite(ledPins[0],LOW);
     idx++;
-    
   }
   noTone(buzzerPin);
 }
@@ -119,6 +113,7 @@ void  borbinput(int difficulty){
       while (idx < 30){
         if(digitalRead(btn2))
           canFeed(true);
+          break;
         delay(1000);
         idx++;
       }
@@ -126,8 +121,10 @@ void  borbinput(int difficulty){
       while (idx < 30){
         if(digitalRead(btn2) && jdx == 2){
           jdx++;
-          if (jdx == 2)
+          if (jdx == 2){
             canFeed(true);
+            break;
+          }
         }
         delay(1000);
         idx++;
@@ -136,8 +133,9 @@ void  borbinput(int difficulty){
       while (idx < 30){
         if(digitalRead(btn2) && jdx == 3){
           jdx++;
-          if (jdx == 2)
+          if (jdx == 2){
             canFeed(true);
+            break;
         }
         delay(1000);
         idx++;
