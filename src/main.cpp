@@ -183,9 +183,20 @@ void loop(){
       delay(300);
     }
     if (digitalRead(btn2)){
+      if (difficulty = 0)
+      {
       melody(1,difficulty);
+      difficultyLED(difficulty);
       delay(1000);
       borbinput(difficulty);
+      }
+      else
+      {
+      melody(1,difficulty);
+      difficultyLED(difficulty);
+      delay(1000);
+      launchSeeds();
+      }
     }
   }
 }
