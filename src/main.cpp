@@ -46,11 +46,11 @@ void launchSeeds()
   delay(20);
   analogWrite(motorPin, 140);
   delay(1000);
-  while (ib < 140)
+  while (ib <= 140)
   {
     analogWrite(motorPin, (140 - ib));
     delay(10);
-    ib++;
+    ib++; //ib += 10;
   }
 }
 
@@ -60,41 +60,15 @@ bool canFeed(bool bypass = false)
   if (!bypass)
   {
     if (tm.Hour > 7 && tm.Hour < 20)
-    {
       return true;
-    }
     else {
       delay(30000);
       return false;
     }
   }
-  else
-  {
-    return true;
-  }
+  return true;
 }
 
-// def des leds pour les modes
-void mod1()
-{
-  digitalWrite(ledPin1, HIGH);
-  digitalWrite(ledPin2, LOW);
-  digitalWrite(ledPin3, LOW);
-}
-
-void mod2()
-{
-  digitalWrite(ledPin1, LOW);
-  digitalWrite(ledPin2, HIGH);
-  digitalWrite(ledPin3, LOW);
-}
-
-void mod3()
-{
-  digitalWrite(ledPin1, LOW);
-  digitalWrite(ledPin2, LOW);
-  digitalWrite(ledPin3, HIGH);
-}
 
 void  mod(int level){
   switch (level){
