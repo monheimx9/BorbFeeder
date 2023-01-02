@@ -138,16 +138,9 @@ void  borbinput(int difficulty){
       while (idx < 30){
         if(digitalRead(btn2))
           jdx++;
-<<<<<<< HEAD
         if (jdx == 2){
           launchSeeds();
           idx = 31;
-=======
-          if (jdx == 2){
-            launchSeeds();
-            idx = 31;
-          }
->>>>>>> b2bdf0b86ee76764c9ff1976d2a9affe01e6f761
         }
         delay(1000);
         idx++;
@@ -158,28 +151,12 @@ void  borbinput(int difficulty){
       while (idx < 30){
         if(digitalRead(btn2))
           jdx++;
-<<<<<<< HEAD
         if (jdx == 3){
           launchSeeds();
           idx = 31;
-=======
-          if (jdx == 2){
-            launchSeeds();
-            idx = 31;
->>>>>>> b2bdf0b86ee76764c9ff1976d2a9affe01e6f761
         }
         delay(1000);
-        idx++;
-      }
-      break;
-    }
-  }
 }
-
-void loop(){
-  if (canFeed(true)){
-    if (digitalRead(btn1)){
-      difficulty = definemode(difficulty);
       difficultyLED(difficulty);
       delay(300);
     }
