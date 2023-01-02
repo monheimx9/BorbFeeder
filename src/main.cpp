@@ -112,38 +112,42 @@ void  borbinput(int difficulty){
   idx = 0;
   jdx = 0;
   switch (difficulty){
-    case 0 :
+    case 0 :{
       while (idx < 30){
         if(digitalRead(btn2)){
-          canFeed(true);
+          launchSeeds();
           idx = 31;
         }
         delay(1000);
         idx++;
       }
-    case 1 :
+      break;
+    }
+    case 1 :{
       while (idx < 30){
-        if(digitalRead(btn2) && jdx == 2){
+        if(digitalRead(btn2))
           jdx++;
-          if (jdx == 2){
-            canFeed(true);
-            idx = 31;
-          }
+        if (jdx == 2){
+          launchSeeds();
+          idx = 31;
         }
         delay(1000);
         idx++;
       }
-    case 2 :
+      break;
+    }
+    case 2 :{
       while (idx < 30){
-        if(digitalRead(btn2) && jdx == 3){
+        if(digitalRead(btn2))
           jdx++;
-          if (jdx == 2){
-            canFeed(true);
-            idx = 31;
+        if (jdx == 3){
+          launchSeeds();
+          idx = 31;
         }
         delay(1000);
         idx++;
       }
+      break;
     }
   }
 }
