@@ -96,6 +96,26 @@ void mod3()
   digitalWrite(ledPin3, HIGH);
 }
 
+void  mod(int level){
+  switch (level){
+  case '0' :
+    digitalWrite(ledPin1, HIGH);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, LOW);
+    break;
+  case '1' :
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, HIGH);
+    digitalWrite(ledPin3, LOW);
+    break;
+  case '2' :
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, HIGH);
+    break;
+  }
+}
+
 void loop(){
   while (canFeed(false))
   {
@@ -106,17 +126,6 @@ void loop(){
     }
     if (digitalRead(btn2))
     note2[mode];
-    if (mode == 0)
-    {
-      mod1();
-    }
-    else if (mode == 1)
-    {
-      mod2();
-    }
-    else if (mode == 2)
-    {
-      mod3();
-    }
+    mod(mode);
   }
 }
