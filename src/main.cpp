@@ -8,6 +8,7 @@ int mode = 0;
 int note1[] = {100, 300, 500};
 int note2[] = {200, 400, 600};
 int idx = 0;
+int buzzerPin = 8;
 int motorPin = 9;
 int ledPin1 = 3;
 int ledPin2 = 4;
@@ -33,9 +34,9 @@ int tabernak(int mode)
   mode++;
   if (mode == 3)
     mode = 0;
-  tone(8, note1[mode]);
+  tone(buzzerPin, note1[mode]);
   delay(100);
-  noTone(8);
+  noTone(buzzerPin);
   return (mode);
 }
 
@@ -54,9 +55,11 @@ void launchSeeds()
   }
 }
 
-void melody(int melodyNum, int difficulty) 
+void melody(int melodyNum = 1, int difficulty = 0) 
 {
-
+  noTone(buzzerPin);
+  idx = 0;
+  for (idx <= )
 }
 
 bool canFeed(bool bypass = false)
