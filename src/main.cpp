@@ -3,7 +3,7 @@
 #include <TimeLib.h>
 #include <DS1307RTC.h>
 
-int melody1[10][2] = {{},{},{},{},{},{},{},{},{},{}};
+int melody1[10][2] = {{740,500},{},{},{},{},{},{},{},{},{}};
 int mode = 0;
 int note1[] = {100, 300, 500};
 int note2[] = {200, 400, 600};
