@@ -156,7 +156,13 @@ void  borbinput(int difficulty){
           idx = 31;
         }
         delay(1000);
+      }
+    }
+  }
 }
+void loop(){
+  while (canFeed){
+    if (digitalRead(btn1)){
       difficultyLED(difficulty);
       delay(300);
     }
