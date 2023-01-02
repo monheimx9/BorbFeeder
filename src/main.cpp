@@ -8,6 +8,7 @@ int difficulty = 0;
 int note1[] = {100, 300, 500};
 int note2[] = {200, 400, 600};
 int idx = 0;
+int jdx = 0;
 int buzzerPin = 8;
 int motorPin = 9;
 int ledPin1 = 3;
@@ -72,7 +73,7 @@ void melody(int melodyNum = 1, int difficulty = 0)
     
   }
   noTone(buzzerPin);
-  }
+}
 
 bool canFeed(bool bypass = false)
 {
@@ -90,8 +91,8 @@ bool canFeed(bool bypass = false)
 }
 
 
-void  difficultyLED(int level){
-  switch (level){
+void  difficultyLED(int difficulty){
+  switch (difficulty){
     case 0 :
       digitalWrite(ledPin1, HIGH);
       digitalWrite(ledPin2, LOW);
@@ -110,18 +111,53 @@ void  difficultyLED(int level){
   }
 }
 
+void  borbinput(int difficulty){
+  idx = 0;
+  jdx = 0;
+  switch (difficulty){
+    case 0 :
+      while (idx < 30){
+        if(digitalRead(btn2))
+          canFeed(true);
+        delay(1000);
+        idx++;
+      }
+    case 1 :
+      while (idx < 30){
+        if(digitalRead(btn2) && jdx == 2){
+          jdx++;
+          if (jdx == 2)
+            canFeed(true);
+        }
+        delay(1000);
+        idx++;
+      }
+    case 2 :
+      while (idx < 30){
+        if(digitalRead(btn2) && jdx == 3){
+          jdx++;
+          if (jdx == 2)
+            canFeed(true);
+        }
+        delay(1000);
+        idx++;
+      }
+  }
+}
+
 void loop(){
   if (canFeed(true))
   {
     if (digitalRead(btn1))
-    { 
+    {
       difficulty = definemode(difficulty);
       difficultyLED(difficulty);
       delay(300);
     }
-    if (digitalRead(btn2))
-    {
+    if (digitalRead(btn2)){
       melody(1,10);
+      delay(1000);
+      borbinput(difficulty);
     }
   }
 }
