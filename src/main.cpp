@@ -60,14 +60,25 @@ void melody(int melodyNum = 1, int difficulty = 0)
 {
   noTone(buzzerPin);
   int ledPins[3] = {ledPin1,ledPin2,ledPin3};
+  int ledInt = 0;
+  int currentNote;
   idx = 0;
   while (idx < 10)
-  {
-    digitalWrite(ledPins[0], HIGH);
-    tone(buzzerPin, melody1[idx][0]);
+  { 
+    if (currentNote < melody1[idx][0])
+      ledInt++;
+    else
+      ledInt--;
+    if (ledInt > 2)
+      ledInt = ledPins[0];
+    else if (ledInt < 0)
+      ledInt = ledPins[2];
+    currentNote = melody1[idx][0];
+    digitalWrite(ledPins[ledInt], HIGH);
+    tone(buzzerPin, currentNote);
     delay(melody1[idx][1]);
     idx++;
-    digitalWrite(ledPins[0], LOW);
+    digitalWrite(ledPins[ledInt], LOW);
   }
   noTone(buzzerPin);
 }
