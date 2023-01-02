@@ -3,7 +3,7 @@
 #include <TimeLib.h>
 #include <DS1307RTC.h>
 
-int melody1[10][2] = {{},{},{},{},{},{},{},{},{},{}};
+int melody1[10][2] = {{1174,500},{987,250},{789,250},{659,250},{1174,250},{987,250},{783,250},{987,500},{783,500},{987,500}};
 int mode = 0;
 int note1[] = {100, 300, 500};
 int note2[] = {200, 400, 600};
@@ -61,10 +61,11 @@ void melody(int melodyNum = 1, int difficulty = 0)
   idx = 0;
   while (idx < 10)
   {
-    tone(buzzerPin, *melody1[idx,0]);
-    delay(*melody1[idx,1]);
+    tone(buzzerPin, melody1[idx][0]);
+    delay(melody1[idx][1]);
     idx++;
   }
+  noTone(buzzerPin);
   }
 
 bool canFeed(bool bypass = false)
@@ -83,7 +84,7 @@ bool canFeed(bool bypass = false)
 }
 
 
-void  difficulty(int level){
+void  difficultyLED(int level){
   switch (level){
   case '0' :
     digitalWrite(ledPin1, HIGH);
@@ -104,15 +105,17 @@ void  difficulty(int level){
 }
 
 void loop(){
-  if (canFeed(false))
+  if (canFeed(true))
   {
     if (digitalRead(btn1))
     {
       mode = definemode(mode);
+      difficultyLED(mode);
       delay(300);
     }
     if (digitalRead(btn2))
-    note2[mode];
-    difficulty(mode);
+    {
+      melody(1,10);
+    }
   }
 }
