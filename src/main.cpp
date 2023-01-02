@@ -63,7 +63,7 @@ void melody(int melodyNum = 1, int difficulty = 0)
   int ledInt = 0;
   int currentNote;
   idx = 0;
-  while (idx < 10)
+  while (idx < difficulty)
   { 
     if (currentNote < melody1[idx][0])
       ledInt++;
@@ -183,7 +183,7 @@ void loop(){
       delay(300);
     }
     if (digitalRead(btn2)){
-      melody(1,10);
+      melody(1,difficulty);
       delay(1000);
       borbinput(difficulty);
     }
