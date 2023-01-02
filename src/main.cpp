@@ -125,9 +125,10 @@ void  borbinput(int difficulty){
   switch (difficulty){
     case 0 :
       while (idx < 30){
-        if(digitalRead(btn2))
+        if(digitalRead(btn2)){
           canFeed(true);
-          break;
+          idx = 31;
+        }
         delay(1000);
         idx++;
       }
@@ -137,7 +138,7 @@ void  borbinput(int difficulty){
           jdx++;
           if (jdx == 2){
             canFeed(true);
-            break;
+            idx = 31;
           }
         }
         delay(1000);
@@ -149,7 +150,7 @@ void  borbinput(int difficulty){
           jdx++;
           if (jdx == 2){
             canFeed(true);
-            break;
+            idx = 31;
         }
         delay(1000);
         idx++;
