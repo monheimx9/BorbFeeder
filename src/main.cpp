@@ -5,7 +5,7 @@
 
 int melody1[10][2] = {{1174,500},{987,250},{789,250},{659,250},{1174,250},{987,250},{783,250},{987,500},{783,500},{987,500}};
 int difficulty = 0;
-int note1[] = {100, 300, 500, 750};
+int note1[] = {100, 300, 500, 750, 850, 950};
 int note2[] = {200, 400, 600};
 int idx = 0;
 int jdx = 0;
@@ -33,7 +33,7 @@ void setup()
 int definemode(int mode)
 {
   mode++;
-  if (mode == 4)
+  if (mode == 6)
     mode = 0;
   tone(buzzerPin, note1[mode]);
   delay(100);
@@ -121,6 +121,16 @@ void  difficultyLED(int difficulty){
       digitalWrite(ledPin2, LOW);
       digitalWrite(ledPin3, HIGH);
       break;
+    case 4 :
+      digitalWrite(ledPin1, LOW);
+      digitalWrite(ledPin2, HIGH);
+      digitalWrite(ledPin3, HIGH);
+      break;
+    case 5 :
+      digitalWrite(ledPin1, HIGH);
+      digitalWrite(ledPin2, HIGH);
+      digitalWrite(ledPin3, HIGH);
+      break;    
   }
 }
 
