@@ -54,6 +54,11 @@ void launchSeeds()
   }
 }
 
+void melody(int melodyNum, int difficulty) 
+{
+
+}
+
 bool canFeed(bool bypass = false)
 {
   tmElements_t tm;
