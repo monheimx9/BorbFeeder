@@ -138,18 +138,17 @@ void  borbinput(int difficulty){
   idx = 0;
   jdx = 0;
 
-  while (idx < difficulty || jdx < 30000)
+  while (idx < difficulty && jdx < 30000)
   {
     if (digitalRead(btn2))
     {
-      delay(200);
+      delay(150);
       idx++;
       if (idx >= difficulty)
-      {
         launchSeeds();
-      }
     }
     jdx++;
+    delay(1);
   }
 }
 void loop(){
