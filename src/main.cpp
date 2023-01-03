@@ -33,7 +33,7 @@ void setup()
 int definemode(int mode)
 {
   mode++;
-  if (mode == 6)
+  if (mode == 7)
     mode = 0;
   tone(buzzerPin, note1[mode]);
   delay(100);
@@ -128,9 +128,14 @@ void  difficultyLED(int difficulty){
       break;
     case 5 :
       digitalWrite(ledPin1, HIGH);
+      digitalWrite(ledPin2, LOW);
+      digitalWrite(ledPin3, HIGH);
+      break;  
+    case 6 :
+      digitalWrite(ledPin1, HIGH);
       digitalWrite(ledPin2, HIGH);
       digitalWrite(ledPin3, HIGH);
-      break;    
+      break;      
   }
 }
 
@@ -143,9 +148,18 @@ void  borbinput(int difficulty){
     if (digitalRead(btn2))
     {
       delay(150);
+      while (digitalRead(btn2))
+        delay(100);
+      Serial.print("Button pressed "); 
+      Serial.print(idx + 1);
+      Serial.print(" times"); 
+      Serial.println();
       idx++;
       if (idx >= difficulty)
+        {
         launchSeeds();
+        break;
+        }
     }
     jdx++;
     delay(1);
