@@ -137,42 +137,19 @@ void  difficultyLED(int difficulty){
 void  borbinput(int difficulty){
   idx = 0;
   jdx = 0;
-  switch (difficulty){
-    case 0 :{
-      while (idx < 30){
-        if(digitalRead(btn2)){
-          launchSeeds();
-          idx = 31;
-        }
-        delay(1000);
-        idx++;
-      }
-      break;
-    }
-    case 1 :{
-      while (idx < 30){
-        if(digitalRead(btn2))
-          jdx++;
-        if (jdx == 2){
-          launchSeeds();
-          idx = 31;
-        }
-        delay(1000);
-        idx++;
-      }
-      break;
-    }
-    case 2 :{
-      while (idx < 30){
-        if(digitalRead(btn2))
-          jdx++;
-        if (jdx == 3){
-          launchSeeds();
-          idx = 31;
-        }
-        delay(1000);
+
+  while (idx < difficulty || jdx < 30000)
+  {
+    if (digitalRead(btn2))
+    {
+      delay(200);
+      idx++;
+      if (idx >= difficulty)
+      {
+        launchSeeds();
       }
     }
+    jdx++;
   }
 }
 void loop(){
@@ -183,7 +160,7 @@ void loop(){
       delay(300);
     }
     if (digitalRead(btn2)){
-      if (difficulty = 0)
+      if (difficulty != 0)
       {
       melody(1,difficulty);
       difficultyLED(difficulty);
@@ -194,7 +171,7 @@ void loop(){
       {
       melody(1,difficulty);
       difficultyLED(difficulty);
-      delay(1000);
+      delay(10);
       launchSeeds();
       }
     }
