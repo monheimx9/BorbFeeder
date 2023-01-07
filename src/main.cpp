@@ -3,9 +3,9 @@
 #include <TimeLib.h>
 #include <DS1307RTC.h>
 
-int melody1[10][2] = {{1174,500},{987,250},{789,250},{659,250},{1174,250},{987,250},{783,250},{987,500},{783,500},{987,500}};
+int melody1[10][2] = {{1174, 500}, {987, 250}, {789, 250}, {659, 250}, {1174, 250}, {987, 250}, {783, 250}, {987, 500}, {783, 500}, {987, 500}};
 int difficulty = 0;
-int note1[] = {100, 300, 500, 750, 850, 950};
+int note1[] = {261, 293, 329, 349, 392, 440, 493, 523};
 int note2[] = {200, 400, 600};
 int idx = 0;
 int jdx = 0;
@@ -27,16 +27,30 @@ void setup()
   pinMode(ledPin3, OUTPUT);
   pinMode(btn1, INPUT);
   pinMode(btn2, INPUT);
+  while (!Serial)
+    ;                       // wait until Arduino Serial Monitor opens
+  setSyncProvider(RTC.get); // the function to get the time from the RTC
+  if (timeStatus() != timeSet)
+  {
+    Serial.println("Unable to sync with the RTC");
+    while (timeStatus() != timeSet)
+    {
+      Serial.println("Unable to sync with the RTC");
+    }
+  }
+  else
+    Serial.println("RTC has set the system time");
 }
 
 // pas overflow le nombre de modes + son par changement de mode
 int definemode(int mode)
 {
   mode++;
-  if (mode == 7)
+  if (mode == 8)
     mode = 0;
   tone(buzzerPin, note1[mode]);
-  delay(100);
+  Serial.print(note1[mode]);
+  delay(130);
   noTone(buzzerPin);
   return (mode);
 }
@@ -44,27 +58,25 @@ int definemode(int mode)
 void launchSeeds()
 {
   int ib = 0;
-  analogWrite(motorPin, 255);
-  delay(20);
   analogWrite(motorPin, 140);
-  delay(1000);
+  delay(210);
   while (ib <= 140)
   {
     analogWrite(motorPin, (140 - ib));
-    delay(10);
-    ib++; //ib += 10;
+    delay(8);
+    ib++; // ib += 10;
   }
 }
 
-void melody(int melodyNum = 1, int difficulty = 0) 
+void melody(int melodyNum = 1, int difficulty = 0)
 {
   noTone(buzzerPin);
-  int ledPins[3] = {ledPin1,ledPin2,ledPin3};
-  int ledInt = 0;
+  int ledPins[3] = {ledPin1, ledPin2, ledPin3};
+  int ledInt = 1;
   int currentNote;
   idx = 0;
   while (idx < difficulty)
-  { 
+  {
     if (currentNote < melody1[idx][0])
       ledInt++;
     else
@@ -85,12 +97,12 @@ void melody(int melodyNum = 1, int difficulty = 0)
 
 bool canFeed(bool bypass = false)
 {
-  tmElements_t tm;
   if (!bypass)
   {
-    if (tm.Hour > 7 && tm.Hour < 20)
+    if (hour() >= 6 && hour() < 20)
       return true;
-    else {
+    else
+    {
       delay(30000);
       return false;
     }
@@ -98,48 +110,55 @@ bool canFeed(bool bypass = false)
   return true;
 }
 
-
-void  difficultyLED(int difficulty){
-  switch (difficulty){
-    case 0 :
-      digitalWrite(ledPin1, LOW);
-      digitalWrite(ledPin2, LOW);
-      digitalWrite(ledPin3, LOW);
-      break;
-    case 1 :
-      digitalWrite(ledPin1, HIGH);
-      digitalWrite(ledPin2, LOW);
-      digitalWrite(ledPin3, LOW);
-      break;
-    case 2 :
-      digitalWrite(ledPin1, LOW);
-      digitalWrite(ledPin2, HIGH);
-      digitalWrite(ledPin3, LOW);
-      break;
-    case 3 :
-      digitalWrite(ledPin1, LOW);
-      digitalWrite(ledPin2, LOW);
-      digitalWrite(ledPin3, HIGH);
-      break;
-    case 4 :
-      digitalWrite(ledPin1, LOW);
-      digitalWrite(ledPin2, HIGH);
-      digitalWrite(ledPin3, HIGH);
-      break;
-    case 5 :
-      digitalWrite(ledPin1, HIGH);
-      digitalWrite(ledPin2, LOW);
-      digitalWrite(ledPin3, HIGH);
-      break;  
-    case 6 :
-      digitalWrite(ledPin1, HIGH);
-      digitalWrite(ledPin2, HIGH);
-      digitalWrite(ledPin3, HIGH);
-      break;      
+void difficultyLED(int difficulty)
+{
+  switch (difficulty)
+  {
+  case 0:
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, LOW);
+    break;
+  case 1:
+    digitalWrite(ledPin1, HIGH);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, LOW);
+    break;
+  case 2:
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, HIGH);
+    digitalWrite(ledPin3, LOW);
+    break;
+  case 3:
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, HIGH);
+    break;
+  case 4:
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, HIGH);
+    digitalWrite(ledPin3, HIGH);
+    break;
+  case 5:
+    digitalWrite(ledPin1, HIGH);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, HIGH);
+    break;
+  case 6:
+    digitalWrite(ledPin1, HIGH);
+    digitalWrite(ledPin2, HIGH);
+    digitalWrite(ledPin3, LOW);
+    break;
+  case 7:
+    digitalWrite(ledPin1, HIGH);
+    digitalWrite(ledPin2, HIGH);
+    digitalWrite(ledPin3, HIGH);
+    break;
   }
 }
 
-void  borbinput(int difficulty){
+void borbinput(int difficulty)
+{
   idx = 0;
   jdx = 0;
 
@@ -148,44 +167,49 @@ void  borbinput(int difficulty){
     if (digitalRead(btn2))
     {
       delay(150);
+      tone(buzzerPin, melody1[idx][0]);
       while (digitalRead(btn2))
         delay(100);
-      Serial.print("Button pressed "); 
+      delay(50);
+      noTone(buzzerPin);
+      Serial.print("Button pressed ");
       Serial.print(idx + 1);
-      Serial.print(" times"); 
+      Serial.print(" times");
       Serial.println();
       idx++;
       if (idx >= difficulty)
-        {
+      {
         launchSeeds();
         break;
-        }
+      }
     }
     jdx++;
     delay(1);
   }
 }
-void loop(){
-  if (canFeed(true)){
-    if (digitalRead(btn1)){
+void loop()
+{
+  if (canFeed(false))
+  {
+    if (digitalRead(btn1))
+    {
       difficulty = definemode(difficulty);
       difficultyLED(difficulty);
-      delay(300);
     }
-    if (digitalRead(btn2)){
+    if (digitalRead(btn2))
+    {
       if (difficulty != 0)
       {
-      melody(1,difficulty);
-      difficultyLED(difficulty);
-      delay(1000);
-      borbinput(difficulty);
+        melody(1, difficulty);
+        difficultyLED(difficulty);
+        borbinput(difficulty);
       }
       else
       {
-      melody(1,difficulty);
-      difficultyLED(difficulty);
-      delay(10);
-      launchSeeds();
+        melody(1, difficulty + 1);
+        difficultyLED(difficulty);
+        delay(10);
+        launchSeeds();
       }
     }
   }
