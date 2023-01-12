@@ -11,6 +11,11 @@ int idx = 0;
 int jdx = 0;
 int buzzerPin = 8;
 int motorPin = 9;
+int step_number = 0;
+int STEPPER_PIN_1 = 10;
+int STEPPER_PIN_2 = 11;
+int STEPPER_PIN_3 = 12;
+int STEPPER_PIN_4 = 13;
 int ledPin1 = 3;
 int ledPin2 = 4;
 int ledPin3 = 5;
@@ -21,6 +26,10 @@ void setup()
 {
   // Arduino 9600 Beauds -- ESP32 115200 Beauds
   Serial.begin(9600);
+  pinMode(STEPPER_PIN_1, OUTPUT);
+  pinMode(STEPPER_PIN_2, OUTPUT);
+  pinMode(STEPPER_PIN_3, OUTPUT);
+  pinMode(STEPPER_PIN_4, OUTPUT);
   pinMode(motorPin, OUTPUT);
   pinMode(ledPin1, OUTPUT);
   pinMode(ledPin2, OUTPUT);
@@ -55,17 +64,76 @@ int definemode(int mode)
   return (mode);
 }
 
-void launchSeeds()
-{
-  int ib = 0;
-  analogWrite(motorPin, 140);
-  delay(210);
-  while (ib <= 140)
-  {
-    analogWrite(motorPin, (140 - ib));
-    delay(8);
-    ib++; // ib += 10;
+void OneStep(bool dir){
+    if(dir){
+switch(step_number){
+  case 0:
+  digitalWrite(STEPPER_PIN_1, HIGH);
+  digitalWrite(STEPPER_PIN_2, LOW);
+  digitalWrite(STEPPER_PIN_3, LOW);
+  digitalWrite(STEPPER_PIN_4, LOW);
+  break;
+  case 1:
+  digitalWrite(STEPPER_PIN_1, LOW);
+  digitalWrite(STEPPER_PIN_2, HIGH);
+  digitalWrite(STEPPER_PIN_3, LOW);
+  digitalWrite(STEPPER_PIN_4, LOW);
+  break;
+  case 2:
+  digitalWrite(STEPPER_PIN_1, LOW);
+  digitalWrite(STEPPER_PIN_2, LOW);
+  digitalWrite(STEPPER_PIN_3, HIGH);
+  digitalWrite(STEPPER_PIN_4, LOW);
+  break;
+  case 3:
+  digitalWrite(STEPPER_PIN_1, LOW);
+  digitalWrite(STEPPER_PIN_2, LOW);
+  digitalWrite(STEPPER_PIN_3, LOW);
+  digitalWrite(STEPPER_PIN_4, HIGH);
+  break;
+} 
+  }else{
+    switch(step_number){
+  case 0:
+  digitalWrite(STEPPER_PIN_1, LOW);
+  digitalWrite(STEPPER_PIN_2, LOW);
+  digitalWrite(STEPPER_PIN_3, LOW);
+  digitalWrite(STEPPER_PIN_4, HIGH);
+  break;
+  case 1:
+  digitalWrite(STEPPER_PIN_1, LOW);
+  digitalWrite(STEPPER_PIN_2, LOW);
+  digitalWrite(STEPPER_PIN_3, HIGH);
+  digitalWrite(STEPPER_PIN_4, LOW);
+  break;
+  case 2:
+  digitalWrite(STEPPER_PIN_1, LOW);
+  digitalWrite(STEPPER_PIN_2, HIGH);
+  digitalWrite(STEPPER_PIN_3, LOW);
+  digitalWrite(STEPPER_PIN_4, LOW);
+  break;
+  case 3:
+  digitalWrite(STEPPER_PIN_1, HIGH);
+  digitalWrite(STEPPER_PIN_2, LOW);
+  digitalWrite(STEPPER_PIN_3, LOW);
+  digitalWrite(STEPPER_PIN_4, LOW);
+ 
+  
+} 
   }
+step_number++;
+  if(step_number > 3){
+    step_number = 0;
+  }
+}
+
+void launchSeeds(){
+  idx = 0;
+  while (idx < 2048){
+    OneStep(false);
+    delay(2);
+    idx++;
+  }  
 }
 
 void melody(int melodyNum = 1, int difficulty = 0)
@@ -99,7 +167,7 @@ bool canFeed(bool bypass = false)
 {
   if (!bypass)
   {
-    if (hour() >= 6 && hour() < 20)
+    if (hour() >= 6 && hour() < 00)
       return true;
     else
     {
@@ -189,7 +257,7 @@ void borbinput(int difficulty)
 }
 void loop()
 {
-  if (canFeed(false))
+  if (canFeed(true))
   {
     if (digitalRead(btn1))
     {
